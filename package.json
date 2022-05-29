@@ -1,6 +1,6 @@
 {
   "name": "ts-game-of-life",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Classic game of life",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

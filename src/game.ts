@@ -38,12 +38,12 @@ function getBounds(lives: Cell[]) : Bounds{
         top = Math.max(top,live.y)
     }
 
-    return {
+    return expand({
         left,
         bottom,
         right,
         top
-    };
+    });
 }
 
 export function expand(bounds: Bounds) {
@@ -56,26 +56,11 @@ export function expand(bounds: Bounds) {
 }
 
 export function survive(universe : Universe) :Cell[]{
-    const bounds = expand(universe.land.bounds);
-    const newLand : CellState [][]= []
-    const width = bounds.right - bounds.left + 1;
-
-    newLand.push(new Array<CellState>(width).fill(DEAD));
-    for(let row of universe.land.land){
-        row.unshift(DEAD);
-        row.push(DEAD);
-        newLand.push(row)
-    }
-    newLand.push(new Array<CellState>(width).fill(DEAD));
-    const land : Land = {
-            bounds,
-            land : newLand
-    }
     const newLives : Cell[] = []
     const fertilization : Map<number,Map<number,number>> = new Map();
 
     for(let live of universe.lives){
-        const neighbours = visitNeighbours(live,land,fertilization)
+        const neighbours = visitNeighbours(live,universe.land,fertilization)
         if(neighbours === 2 || neighbours ===3){
             newLives.push(live)
         }
@@ -83,7 +68,6 @@ export function survive(universe : Universe) :Cell[]{
 
     for(let y of fertilization.keys()){
         for(let x of fertilization.get(y).keys()){
-          //  console.log(`x: ${x}, y: ${y}, val: ${fertilization.get(y).get(x)}`)
             if(fertilization.get(y).get(x) ===3){
                 newLives.push({
                     x,y
@@ -103,7 +87,7 @@ export function createLand(lives: Cell[]) : Land{
 
     const length = res.bounds.right - res.bounds.left + 1;
     for(let i = res.bounds.bottom; i <= res.bounds.top; i++){
-        const row = new Array(length).fill(false)
+        const row = new Array<CellState>(length).fill(DEAD)
         res.land.push(row)
     }
 
