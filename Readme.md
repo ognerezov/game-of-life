@@ -7,9 +7,8 @@ https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 ### Installation
     npm install --save ts-game-of-life
 ### Imports
-    import {live} from "../src/game";
-    import {show} from "../src/entities";
-    import {Universe} from "../src/entities";
+    import {live} from "ts-game-of-life/dist/game";
+    import {Universe,show} from "ts-game-of-life/dist/entities";
 
 ### Define your Universe
     const period2Universe1 = {
